@@ -204,11 +204,11 @@ class BlockBestSellers extends Module
 	{
 		if (!$this->isCached('tab.tpl', $this->getCacheId('blockbestsellers-tab')))
 		{
-			BlockBestSellers::$cache_best_sellers = $this->getBestSellers($params);
-			$this->smarty->assign('best_sellers', BlockBestSellers::$cache_best_sellers);
+			BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang] = $this->getBestSellers($params);
+			$this->smarty->assign('best_sellers', BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang] );
 		}
 
-		if (BlockBestSellers::$cache_best_sellers === false)
+		if (BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang]  === false)
 			return false;
 
 		return $this->display(__FILE__, 'tab.tpl', $this->getCacheId('blockbestsellers-tab'));
@@ -219,12 +219,12 @@ class BlockBestSellers extends Module
 		if (!$this->isCached('blockbestsellers-home.tpl', $this->getCacheId('blockbestsellers-home')))
 		{
 			$this->smarty->assign(array(
-				'best_sellers' => BlockBestSellers::$cache_best_sellers,
+				'best_sellers' => BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang] ,
 				'homeSize' => Image::getSize(ImageType::getFormatedName('home'))
 			));
 		}
 
-		if (BlockBestSellers::$cache_best_sellers === false)
+		if (BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang]  === false)
 			return false;
 
 		return $this->display(__FILE__, 'blockbestsellers-home.tpl', $this->getCacheId('blockbestsellers-home'));
@@ -234,17 +234,17 @@ class BlockBestSellers extends Module
 	{
 		if (!$this->isCached('blockbestsellers.tpl', $this->getCacheId('blockbestsellers-col')))
 		{
-			if (!isset(BlockBestSellers::$cache_best_sellers))
-				BlockBestSellers::$cache_best_sellers = $this->getBestSellers($params);
+			if (!isset(BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang]))
+				BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang] = $this->getBestSellers($params);
 			$this->smarty->assign(array(
-				'best_sellers' => BlockBestSellers::$cache_best_sellers,
+				'best_sellers' => BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang],
 				'display_link_bestsellers' => Configuration::get('PS_DISPLAY_BEST_SELLERS'),
 				'mediumSize' => Image::getSize(ImageType::getFormatedName('medium')),
 				'smallSize' => Image::getSize(ImageType::getFormatedName('small'))
 			));
 		}
 
-		if (BlockBestSellers::$cache_best_sellers === false)
+		if (BlockBestSellers::$cache_best_sellers[$params["cart"]->id_lang] === false)
 			return false;
 
 		return $this->display(__FILE__, 'blockbestsellers.tpl', $this->getCacheId('blockbestsellers-col'));
