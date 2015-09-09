@@ -302,7 +302,7 @@ function getBestSalesLight($id_lang, $page_number = 0, $nb_products = 10, Contex
     FROM `'._DB_PREFIX_.'category_product` cp
     LEFT JOIN `'._DB_PREFIX_.'category_group` cg ON (cg.`id_category` = cp.`id_category`)
     WHERE cg.`id_group` '.$sql_groups
-    .' AND cp.`id_category` = '.($id_lang == 2? 43:31) );
+    .' AND cp.`id_category` = '.($id_lang == 2? 31:43) );
     
     $ids = array();
     foreach ($products as $product)
